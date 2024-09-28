@@ -260,6 +260,21 @@
       </SettingItem>
 
       <SettingItem>
+        <svelte:fragment slot="name">Show checked tasks</svelte:fragment>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div
+          slot="control"
+          class="checkbox-container mod-small"
+          class:is-enabled={$settings.showCheckedTasks}
+          on:click={() => {
+            $settings.showCheckedTasks = !$settings.showCheckedTasks;
+          }}
+        >
+          <input tabindex="0" type="checkbox" />
+        </div>
+      </SettingItem>
+
+      <SettingItem>
         <svelte:fragment slot="name"
           >Show subtasks in task blocks
         </svelte:fragment>

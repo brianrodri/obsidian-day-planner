@@ -22,9 +22,19 @@ export function useDataviewTasks({
         ...$tasksFromExtraSources,
       ];
 
-      return $settingsStore.showCompletedTasks
-        ? allTasks
-        : allTasks.filter((sTask: STask) => !sTask.completed);
+      return allTasks.filter((sTask: STask) => {
+        const { showCheckedTasks, showCompletedTasks } = $settingsStore;
+
+        if (showCheckedTasks && showCompletedTasks) {
+          return true;
+        } else if (showCompletedTasks) {
+          return sTask.completed || !sTask.checked;
+        } else if (showCheckedTasks) {
+          return !sTask.completed;
+        } else {
+          return !sTask.checked;
+        }
+      });
     },
   );
 }

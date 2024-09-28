@@ -43,6 +43,7 @@ export interface DayPlannerSettings {
   showNext: boolean;
   snapStepMinutes: number;
   pluginVersion: string;
+  showCheckedTasks: boolean;
   showCompletedTasks: boolean;
   showSubtasksInTaskBlocks: boolean;
   icals: Array<IcalConfig>;
@@ -80,6 +81,7 @@ export const defaultSettings: DayPlannerSettings = {
   showNow: true,
   showNext: true,
   pluginVersion: "",
+  showCheckedTasks: true,
   showCompletedTasks: true,
   showSubtasksInTaskBlocks: true,
   icals: [],
