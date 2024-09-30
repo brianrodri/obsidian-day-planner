@@ -11,13 +11,13 @@ import {
 } from "../util/clock";
 import { replaceSTaskInFile, toMarkdown } from "../util/dataview";
 import { locToEditorPosition } from "../util/editor";
-import { withNotice } from "../util/with-notice";
+import { withAsyncNotice } from "../util/with-notice";
 
 import { DataviewFacade } from "./dataview-facade";
 import { ObsidianFacade } from "./obsidian-facade";
 
 export class STaskEditor {
-  clockOut = withNotice(async (sTask: STask) => {
+  clockOut = withAsyncNotice(async (sTask: STask) => {
     await this.obsidianFacade.editFile(sTask.path, (contents) =>
       replaceSTaskInFile(
         contents,
@@ -26,7 +26,7 @@ export class STaskEditor {
       ),
     );
   });
-  cancelClock = withNotice(async (sTask: STask) => {
+  cancelClock = withAsyncNotice(async (sTask: STask) => {
     await this.obsidianFacade.editFile(sTask.path, (contents) =>
       replaceSTaskInFile(
         contents,
@@ -62,7 +62,7 @@ export class STaskEditor {
     return sTask;
   };
 
-  clockInUnderCursor = withNotice(
+  clockInUnderCursor = withAsyncNotice(
     flow(
       this.getSTaskUnderCursorFromLastView,
       assertNoActiveClock,
@@ -72,7 +72,7 @@ export class STaskEditor {
     ),
   );
 
-  clockOutUnderCursor = withNotice(
+  clockOutUnderCursor = withAsyncNotice(
     flow(
       this.getSTaskUnderCursorFromLastView,
       assertActiveClock,
@@ -82,7 +82,7 @@ export class STaskEditor {
     ),
   );
 
-  cancelClockUnderCursor = withNotice(
+  cancelClockUnderCursor = withAsyncNotice(
     flow(
       this.getSTaskUnderCursorFromLastView,
       assertActiveClock,

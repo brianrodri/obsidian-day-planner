@@ -1,22 +1,11 @@
 import type { Moment } from "moment";
-import { Notice } from "obsidian";
 import { getAllDailyNotes, getDailyNote } from "obsidian-daily-notes-interface";
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 
-function getAllDailyNotesSafely() {
-  try {
-    return getAllDailyNotes();
-  } catch (error) {
-    console.error(error);
+import { withNotice } from "../../util/with-notice";
 
-    const errorMessage = error instanceof Error ? error.message : error;
-
-    new Notice(`Could not read daily notes. Reason: ${errorMessage}`);
-
-    return {};
-  }
-}
+const getAllDailyNotesSafely = withNotice(getAllDailyNotes, {});
 
 /**
  *
