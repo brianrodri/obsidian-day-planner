@@ -116,6 +116,7 @@ export function createHooks({
     layoutReady,
     debouncedTaskUpdateTrigger,
     visibleDays,
+    settingsStore,
   );
   const listsFromVisibleDailyNotes = useListsFromVisibleDailyNotes(
     visibleDailyNotes,

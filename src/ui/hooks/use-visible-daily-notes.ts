@@ -3,8 +3,11 @@ import { getAllDailyNotes, getDailyNote } from "obsidian-daily-notes-interface";
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 
+import type { DayPlannerSettings } from "../../settings";
+import { getDayKey } from "../../util/tasks-utils";
 import { withNotice } from "../../util/with-notice";
 
+const moment = window.moment;
 const getAllDailyNotesSafely = withNotice(getAllDailyNotes, {});
 
 /**
@@ -17,15 +20,25 @@ export function useVisibleDailyNotes(
   layoutReady: Readable<boolean>,
   debouncedTaskUpdateTrigger: Readable<unknown>,
   visibleDays: Readable<Moment[]>,
+  settings: Readable<DayPlannerSettings>,
 ) {
   return derived(
-    [layoutReady, visibleDays, debouncedTaskUpdateTrigger],
-    ([$layoutReady, $visibleDays]) => {
+    [layoutReady, visibleDays, settings, debouncedTaskUpdateTrigger],
+    ([$layoutReady, $visibleDays, $settings]) => {
       if (!$layoutReady) {
         return [];
       }
 
       const allDailyNotes = getAllDailyNotesSafely();
+
+      if ($settings.showPastScheduledTasks) {
+        const maxKey = getDayKey(moment.max($visibleDays));
+
+        return Object.keys(allDailyNotes)
+          .filter((key) => key <= maxKey)
+          .map((key) => allDailyNotes[key])
+          .filter(Boolean);
+      }
 
       return $visibleDays
         .map((day) => getDailyNote(day, allDailyNotes))
