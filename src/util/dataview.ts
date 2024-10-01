@@ -118,6 +118,10 @@ export function getScheduledDay(sTask: STask) {
   return scheduledPropDay || dailyNoteDay;
 }
 
+export function getStartDay(sTask: STask) {
+  return sTask.start?.toFormat?.(defaultDayFormatForLuxon);
+}
+
 export function toClockRecord(sTask: STask, clockMoments: ClockMoments) {
   // TODO: remove duplication
   return {
@@ -167,4 +171,22 @@ export function replaceSTaskInFile(
   lines.splice(sTask.position.start.line, deleteCount, newText);
 
   return lines.join("\n");
+}
+
+export function isCarryOver(task: STask, day: string) {
+  if (task?.checked) {
+    return false;
+  }
+
+  const start = getStartDay(task);
+  if (start && start > day) {
+    return false;
+  }
+
+  const scheduled = getScheduledDay(task);
+  if (scheduled && scheduled > day) {
+    return false;
+  }
+
+  return true;
 }
