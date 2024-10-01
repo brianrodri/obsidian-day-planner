@@ -39,6 +39,7 @@ export interface DayPlannerSettings {
   showTimestampInTaskBlock: boolean;
   showUncheduledTasks: boolean;
   showUnscheduledNestedTasks: boolean;
+  showPastScheduledTasks: boolean;
   showNow: boolean;
   showNext: boolean;
   snapStepMinutes: number;
@@ -77,6 +78,7 @@ export const defaultSettings: DayPlannerSettings = {
   showTimestampInTaskBlock: false,
   showUncheduledTasks: true,
   showUnscheduledNestedTasks: true,
+  showPastScheduledTasks: false,
   showNow: true,
   showNext: true,
   pluginVersion: "",
